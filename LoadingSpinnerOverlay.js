@@ -7,7 +7,6 @@
 
 import React, {
     Component,
-    PropTypes,
 } from 'react'
 import {
     View,
@@ -40,7 +39,7 @@ const styles = StyleSheet.create({
         zIndex: 999,
     },
 })
-const noop = () => {}
+const noop = () => { }
 
 class LoadingSpinnerOverlay extends Component {
 
@@ -49,15 +48,6 @@ class LoadingSpinnerOverlay extends Component {
         delay: 0,
         marginTop: 0,
         modal: true,
-    }
-
-    static propTypes = {
-        overlayStyle: View.propTypes.style,
-        style: View.propTypes.style,
-        duration: PropTypes.number,
-        delay: PropTypes.number,
-        marginTop: PropTypes.number,
-        modal: PropTypes.bool,
     }
 
     constructor(props) {
@@ -80,9 +70,9 @@ class LoadingSpinnerOverlay extends Component {
         let loadingSpinner = this._renderLoadingSpinner()
         return this._renderOverLay(loadingSpinner)
     }
-    
+
     _renderOverLay(loadingSpinner) {
-        let {width: deviceWidth, height: deviceHeight,} = Dimensions.get('window')
+        let { width: deviceWidth, height: deviceHeight, } = Dimensions.get('window')
         return (
             this.state.modal ?
                 (this.state.marginTop === 0 ?
@@ -91,16 +81,16 @@ class LoadingSpinnerOverlay extends Component {
                     </Modal> :
                     (this.state.visible ?
                         <View
-                            style={[ styles.overlay, {marginTop: this.props.marginTop, width: deviceWidth, height: deviceHeight - this.props.marginTop,}, this.props.overlayStyle, ]}>
+                            style={[styles.overlay, { marginTop: this.props.marginTop, width: deviceWidth, height: deviceHeight - this.props.marginTop, }, this.props.overlayStyle,]}>
                             {loadingSpinner}
                         </View> : null))
                 : loadingSpinner
         )
     }
-    
+
     _renderLoadingSpinner() {
         let children
-        if(this.state.children == null) {
+        if (this.state.children == null) {
             children = this._renderActivityIndicator()
         }
         else {
@@ -114,23 +104,23 @@ class LoadingSpinnerOverlay extends Component {
         return (
             this.state.visible ?
                 <Animated.View
-                    ref={ component => this._container = component }
+                    ref={component => this._container = component}
                     onLayout={this._onLoadingSpinnerLayout}
-                    style={[styles.container, this.props.style, {opacity:this.state.opacity, }]}>
+                    style={[styles.container, this.props.style, { opacity: this.state.opacity, }]}>
                     {children}
                 </Animated.View> : null
         )
     }
 
-    show({modal = this.state.modal, marginTop = this.state.marginTop, children = this.state.children, duration = this.props.duration, easing = Easing.linear, delay = this.props.delay, animationEnd,}
-        = {modal: this.state.modal, marginTop: this.state.marginTop, children: this.state.children, duration: this.props.duration, easing: Easing.linear, delay: this.props.delay,}) {
+    show({ modal = this.state.modal, marginTop = this.state.marginTop, children = this.state.children, duration = this.props.duration, easing = Easing.linear, delay = this.props.delay, animationEnd, }
+        = { modal: this.state.modal, marginTop: this.state.marginTop, children: this.state.children, duration: this.props.duration, easing: Easing.linear, delay: this.props.delay, }) {
 
         this._loadingSpinnerShowAnimation && this._loadingSpinnerShowAnimation.stop()
         this._loadingSpinnerHideAnimation && this._loadingSpinnerHideAnimation.stop()
         this._loadingSpinnerAnimationToggle && this.clearTimeout(this._loadingSpinnerAnimationToggle)
 
-        if(this.state.visible) {
-            this._setLoadingSpinnerOverlayPosition({modal, marginTop})
+        if (this.state.visible) {
+            this._setLoadingSpinnerOverlayPosition({ modal, marginTop })
         }
 
         this.setState({
@@ -155,8 +145,8 @@ class LoadingSpinnerOverlay extends Component {
         })
     }
 
-    hide({duration = this.props.duration, easing = Easing.linear, delay = this.props.delay, animationEnd,}
-        = {duration: this.props.duration, easing: Easing.linear, delay: this.props.delay,}) {
+    hide({ duration = this.props.duration, easing = Easing.linear, delay = this.props.delay, animationEnd, }
+        = { duration: this.props.duration, easing: Easing.linear, delay: this.props.delay, }) {
 
         this._loadingSpinnerShowAnimation && this._loadingSpinnerShowAnimation.stop()
         this._loadingSpinnerHideAnimation && this._loadingSpinnerHideAnimation.stop()
@@ -171,7 +161,7 @@ class LoadingSpinnerOverlay extends Component {
                 delay,
             }
         )
-        this._loadingSpinnerHideAnimation.start( () => {
+        this._loadingSpinnerHideAnimation.start(() => {
             this._loadingSpinnerHideAnimation = null
             this.setState({
                 visible: false,
@@ -186,13 +176,13 @@ class LoadingSpinnerOverlay extends Component {
         this._setLoadingSpinnerOverlayPosition()
     }
 
-    _setLoadingSpinnerOverlayPosition({modal, marginTop} = {modal: this.state.modal, marginTop: this.state.marginTop}) {
-        if(!this._loadingSpinnerWidth || !this._loadingSpinnerHeight) {
+    _setLoadingSpinnerOverlayPosition({ modal, marginTop } = { modal: this.state.modal, marginTop: this.state.marginTop }) {
+        if (!this._loadingSpinnerWidth || !this._loadingSpinnerHeight) {
             return
         }
-        let {width: deviceWidth, height: deviceHeight,} = Dimensions.get('window')
+        let { width: deviceWidth, height: deviceHeight, } = Dimensions.get('window')
         let left = (deviceWidth - this._loadingSpinnerWidth) / 2
-        let top =  (deviceHeight - this._loadingSpinnerHeight) / 2 - (modal && marginTop === 0 ? 0 : marginTop)
+        let top = (deviceHeight - this._loadingSpinnerHeight) / 2 - (modal && marginTop === 0 ? 0 : marginTop)
         this._container.setNativeProps({
             style: {
                 left,
@@ -204,22 +194,22 @@ class LoadingSpinnerOverlay extends Component {
     _renderActivityIndicator() {
         return ActivityIndicator ? (
             <ActivityIndicator
-                style={{position: 'relative', left: 1, top: 1,}}
+                style={{ position: 'relative', left: 1, top: 1, }}
                 animating={true}
                 color={'#fff'}
-                size={'large'}/>
+                size={'large'} />
         ) : Platform.OS == 'android' ?
-            (
-                <ProgressBarAndroid
-                    color={'#fff'}
-                    styleAttr={'large'}/>
+                (
+                    <ProgressBarAndroid
+                        color={'#fff'}
+                        styleAttr={'large'} />
 
-            ) :  (
-            <ActivityIndicatorIOS
-                animating={true}
-                color={'#fff'}
-                size={'large'}/>
-        )
+                ) : (
+                    <ActivityIndicatorIOS
+                        animating={true}
+                        color={'#fff'}
+                        size={'large'} />
+                )
     }
 
 }
